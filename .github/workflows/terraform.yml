@@ -19,6 +19,10 @@ jobs:
     name: Terraform
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./Terraform-Landing-Zone
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -26,19 +30,14 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Show Current Directory
-        run: |
-          pwd
-          echo "Files in repository:"
-          ls -la
-
-      - name: Find Terraform Files
-        run: |
-          echo "Terraform files found:"
-          find . -type f -name "*.tf"
-
       - name: Terraform Version
         run: terraform version
+
+      - name: List Terraform Files
+        run: |
+          pwd
+          ls -la
+          find . -type f -name "*.tf"
 
       - name: Terraform Format
         run: terraform fmt -check -recursive
