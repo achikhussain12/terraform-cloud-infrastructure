@@ -1,0 +1,47 @@
+name: Terraform Azure CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Install Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # Check Terraform version
+      - name: Terraform Version
+        run: terraform version
+
+      # Terraform Format
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      # Initialize Terraform
+      - name: Terraform Init
+        run: terraform init
+
+      # Validate Terraform configuration
+      - name: Terraform Validate
+        run: terraform validate
+
+      # Create Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan
